@@ -5,6 +5,8 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 // Angular Material Imports
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-step-5w1h',
@@ -13,12 +15,13 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule
   ],
   templateUrl: './step-5w1h.component.html',
-  styleUrls: ['./step-5w1h.component.scss']
+  styleUrl: './step-5w1h.component.scss'
 })
 export class Step5w1hComponent {
-  // CORREÇÃO: Remova o "input()" ou "input.required()" e use o @Input() tradicional
   @Input() formGroup!: FormGroup;
 }

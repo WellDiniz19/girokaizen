@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -12,9 +12,11 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 
-// Importação do Step 5W1H
+// Importações dos Subcomponentes Modulares (Passos 2 e 3)
 import { Step5w1hComponent } from '../../kaizen-wizard/components/step-5w1h/step-5w1h.component';
+import { StepPlanoAcaoComponent } from '../../kaizen-wizard/components/step-plano-acao/step-plano-acao.component'; // <-- CORREÇÃO: Novo import adicionado
 
 @Component({
   selector: 'app-wizard-container',
@@ -30,61 +32,79 @@ import { Step5w1hComponent } from '../../kaizen-wizard/components/step-5w1h/step
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
-    Step5w1hComponent
+    MatSelectModule,
+    Step5w1hComponent,
+    StepPlanoAcaoComponent // <-- CORREÇÃO: Injetado nos imports do componente Standalone
   ],
+  providers: [DatePipe],
   templateUrl: './wizard-container.component.html',
   styleUrl: './wizard-container.component.scss'
 })
 export class WizardContainerComponent implements OnInit {
-  isLinear = true; // Força o operador a seguir a ordem dos passos
-  dadosGeraisForm!: FormGroup;
-  fenomeno5w1hForm!: FormGroup;
-  planoAcaoForm!: FormGroup;
+  isLinear = true;
   isSalving = false;
+
+  // Escopo global dos formulários reativos gerenciados pelo Stepper
+  dadosGeraisForm: FormGroup;
+  fenomeno5w1hForm: FormGroup;
+  planoAcaoForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private datePipe: DatePipe
+  ) {
+    // Inicialização preventiva de instâncias vazias para sanar de vez problemas de concorrência assíncrona no HTML
+    this.dadosGeraisForm = this.fb.group({});
+    this.fenomeno5w1hForm = this.fb.group({});
+    this.planoAcaoForm = this.fb.group({});
+  }
 
   ngOnInit(): void {
-    // Passo 1: Dados de Identificação Expandidos e Fluxo de Coparticipantes
+    // Parâmetros de infraestrutura industrial vindos do servidor (Spring Boot / Oracle)
+    const proximoIdKaizen = '1024';
+    const sequencialIdeia = '01';
+    const proximoSequencialOP = '882341';
+    const dataSistema = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || '';
+
+    // PASSO 1: Estrutura reativa de Identificação Geral
     this.dadosGeraisForm = this.fb.group({
-      // Autoria Principal
+      numeroKaizen: [{ value: proximoIdKaizen, disabled: true }],
+      dataAbertura: [{ value: dataSistema, disabled: true }],
+      numeroIdeia: [{ value: `KZ-${proximoIdKaizen}-${sequencialIdeia}`, disabled: true }],
+      op: [`OP-${proximoSequencialOP}`, Validators.required],
       nomeColaborador: ['', Validators.required],
       matricula: ['', Validators.required],
       turno: ['', Validators.required],
       liderEquipe: ['', Validators.required],
-
-      // Controle do fluxo de participantes adicionais
       temOutrosParticipantes: ['nao', Validators.required],
-
-      // Dados do Participante Extra (Validados via Código sob demanda)
       participanteNome: [''],
       participanteRegistro: [''],
       participanteNumeroSug: [''],
       participanteObservacoes: [''],
-
-      // Processo / Localização Industrial
       ute: ['', Validators.required],
       linha: ['', Validators.required],
       maquina: ['', Validators.required],
-      op: ['', Validators.required],
       area: ['', Validators.required],
-      numeroIdeia: ['', Validators.required],
-
-      // O Kaizen mestre
       titulo: ['', [Validators.required, Validators.minLength(5)]]
     });
 
-    // Escuta em tempo real o gatilho do Radio-button para injetar ou expurgar os validadores
+    // Escuta ativa para alternar obrigatoriedade de campos se houver coautores
     this.dadosGeraisForm.get('temOutrosParticipantes')?.valueChanges.subscribe((resposta) => {
       this.atualizarValidadoresParticipantes(resposta === 'sim');
     });
 
-    // Passo 2: O formulário do Fenômeno (5W1H)
+    // PASSO 2: Estrutura reativa de Matriz WCM e Análise 5W1H
     this.fenomeno5w1hForm = this.fb.group({
+      pilarWcm: ['Q', Validators.required],
+      uo: ['', Validators.required],
+      uteMetodologia: ['', Validators.required],
+      produto: ['', Validators.required],
+      opMetodologia: ['', Validators.required],
+      maquinaCaf: ['', Validators.required],
+      responsavelMetodologia: ['', Validators.required],
+      numeroKaizenRelacionado: [{ value: proximoIdKaizen, disabled: true }],
       descricaoProblema: ['', Validators.required],
       what: ['', Validators.required],
       when: ['', Validators.required],
@@ -94,14 +114,16 @@ export class WizardContainerComponent implements OnInit {
       how: ['', Validators.required]
     });
 
-    // Passo 3: Plano de Ação Imediata
+    // PASSO 3: Estrutura reativa do Plano de Ação enviada ao subcomponente
     this.planoAcaoForm = this.fb.group({
       contramedida: ['', [Validators.required, Validators.minLength(10)]],
       prazo: ['', Validators.required]
     });
   }
 
-  // Adiciona regras estritas de preenchimento apenas se houver coautores selecionados
+  /**
+   * Modifica em tempo de execução a obrigatoriedade dos campos de coautoria
+   */
   private atualizarValidadoresParticipantes(exigirValidacao: boolean): void {
     const camposExtras = ['participanteNome', 'participanteRegistro', 'participanteNumeroSug'];
 
@@ -112,25 +134,27 @@ export class WizardContainerComponent implements OnInit {
           controle.setValidators([Validators.required]);
         } else {
           controle.clearValidators();
-          controle.setValue(''); // Reseta o cache digitado para não poluir o payload
+          controle.setValue('');
         }
         controle.updateValueAndValidity();
       }
     });
   }
 
+  /**
+   * Agrupa os payloads reativos e faz a publicação do Quick Kaizen finalizado
+   */
   salvarKaizen(): void {
     if (this.dadosGeraisForm.valid && this.fenomeno5w1hForm.valid && this.planoAcaoForm.valid) {
       this.isSalving = true;
 
       const novoKaizenPayload = {
-        ...this.dadosGeraisForm.value,
-        analiseFenomeno: this.fenomeno5w1hForm.value,
+        ...this.dadosGeraisForm.getRawValue(),
+        analiseFenomeno: this.fenomeno5w1hForm.getRawValue(),
         ...this.planoAcaoForm.value,
         dataCriacao: new Date().toISOString()
       };
 
-      // Simulação física de envio à API Rest do Spring Boot
       setTimeout(() => {
         this.isSalving = false;
         this.snackBar.open('Quick Kaizen registrado com sucesso!', 'Sucesso', {

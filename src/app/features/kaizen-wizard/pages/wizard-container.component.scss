@@ -4,7 +4,6 @@
   margin: 0 auto;
   box-sizing: border-box;
 
-  // Cabeçalho da Tela (Azul Confiança)
   .wizard-header {
     display: flex;
     align-items: center;
@@ -25,20 +24,37 @@
       p {
         margin: 4px 0 0 0;
         font-size: 14px;
-        color: #2C3E50; // Cinza Técnico
+        color: #2C3E50;
         opacity: 0.8;
       }
     }
   }
 
-  // Cartão Base do Componente
   .wizard-card {
     background-color: #FFFFFF;
     border-radius: 8px;
     padding: 12px;
   }
 
-  // Seções Divisoras dos Blocos do Wizard
+  // Estilização cinza neutra para dar a pista visual de que os dados são automáticos
+  .system-generated-section {
+    background-color: #F1F5F9;
+    padding: 18px 20px 4px 20px;
+    border-radius: 8px;
+    border: 1px solid #CBD5E1;
+    margin-bottom: 24px;
+
+    .form-section-title {
+      border-left: 4px solid #0F3B66 !important;
+    }
+
+    mat-form-field {
+      --mdc-filled-text-field-disabled-container-color: #E2E8F0;
+      --mdc-filled-text-field-disabled-input-text-color: #334155;
+      --mdc-filled-text-field-disabled-label-text-color: #475569;
+    }
+  }
+
   .form-section {
     margin-bottom: 32px;
 
@@ -49,21 +65,20 @@
     .form-section-title {
       font-size: 15px;
       font-weight: 700;
-      color: #0F3B66; // Azul Confiança
+      color: #0F3B66;
       margin: 0 0 16px 0;
-      border-left: 4px solid #F26A1B; // Laranja Dinâmico para destaque visual 10%
+      border-left: 4px solid #F26A1B;
       padding-left: 10px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
   }
 
-  // Bloco Wrapper Horizontal para os Botões de Rádio
   .inline-radio-section {
     display: flex;
     align-items: center;
     gap: 20px;
-    background-color: #F8FAFC; // Branco de Fundo (Superfícies)
+    background-color: #F8FAFC;
     padding: 14px 20px;
     border-radius: 6px;
     border: 1px dashed #E2E8F0;
@@ -83,7 +98,6 @@
     }
   }
 
-  // Card Condicional dos Coparticipantes com Efeito Transicional
   .participantes-container {
     margin-bottom: 32px;
     animation: slideInParticipantForm 0.25s ease-in-out;
@@ -111,7 +125,6 @@
     }
   }
 
-  // Preenchimento de Conteúdo Base
   .step-content {
     padding: 20px 8px 8px 8px;
 
@@ -123,7 +136,6 @@
     }
   }
 
-  // Configuração Responsiva do Grid (3 Colunas Estritas)
   .form-grid-3x {
     display: grid;
     grid-template-columns: 1fr;
@@ -147,7 +159,6 @@
     gap: 16px;
   }
 
-  // Botões do Rodapé
   .step-actions {
     display: flex;
     justify-content: flex-end;
@@ -161,7 +172,6 @@
       padding: 0 24px;
     }
 
-    // Botão Final do Kaizen (Laranja Dinâmico de Ação)
     .btn-success {
       background-color: #F26A1B !important;
       color: #FFFFFF;
@@ -175,14 +185,12 @@
     }
   }
 
-  // Classes utilitárias gerais
   .w-100 { width: 100%; }
   .w-50 { width: 100%; max-width: 300px; }
   .gap-12 { gap: 12px; }
   .pt-12 { padding-top: 12px; }
 }
 
-// Animação de Entrada do Form Dinâmico
 @keyframes slideInParticipantForm {
   from {
     opacity: 0;
