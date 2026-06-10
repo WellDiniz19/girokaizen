@@ -1,0 +1,25 @@
+/* Reset global e aplicação dos 60% de fundo Off-White */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', 'Outfit', sans-serif;
+  background-color: #F8FAFC; // Branco de Fundo (Superfícies)
+  color: #2C3E50; // Cinza Técnico para textos principais
+}
+
+/* Customização dos alertas (Snackbar) usando a cor de ação secundária */
+.kaizen-error-snackbar {
+  background-color: #F26A1B !important; // Laranja Dinâmico para chamar a atenção
+  color: #FFFFFF !important;
+  font-weight: 500;
+
+  .mat-mdc-snack-bar-action button {
+    color: #FFFFFF !important;
+  }
+}
+
+/* Utilitário global para inputs e botões herdarem a tipografia */
+input, textarea, button {
+  font-family: inherit;
+}

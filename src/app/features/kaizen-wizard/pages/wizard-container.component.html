@@ -1,0 +1,200 @@
+<div class="wizard-page-wrapper">
+
+  <!-- Cabeçalho de Navegação Rápida -->
+  <header class="wizard-header">
+    <button mat-icon-button (click)="salvarKaizen()" type="button" title="Voltar ao Painel">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-titles">
+      <h2>Abertura de Melhoria Contínua</h2>
+      <p>Preencha os blocos operacionais para registrar o Quick Kaizen</p>
+    </div>
+  </header>
+
+  <mat-card class="wizard-card mat-elevation-z2">
+    <!-- Stepper Horizontal do Angular Material -->
+    <mat-stepper [linear]="isLinear" #stepper>
+
+      <!-- STEP 1: DADOS GERAIS (Identificação Expandida) -->
+      <mat-step [stepControl]="dadosGeraisForm">
+        <ng-template matStepLabel>Identificação</ng-template>
+
+        <form [formGroup]="dadosGeraisForm" class="step-content">
+
+          <!-- Bloco A: Autoria da Ideia -->
+          <div class="form-section">
+            <h4 class="form-section-title">Autoria do Registro</h4>
+            <div class="form-grid-3x">
+              <mat-form-field appearance="outline">
+                <mat-label>Nome do Colaborador</mat-label>
+                <input matInput formControlName="nomeColaborador" placeholder="Ex: João da Silva">
+                <mat-error *ngIf="dadosGeraisForm.get('nomeColaborador')?.hasError('required')">O nome do colaborador é obrigatório.</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Matrícula</mat-label>
+                <input matInput formControlName="matricula" placeholder="Ex: 102432">
+                <mat-error *ngIf="dadosGeraisForm.get('matricula')?.hasError('required')">A matrícula é obrigatória.</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Turno</mat-label>
+                <input matInput formControlName="turno" placeholder="Ex: 1º Turno">
+                <mat-error *ngIf="dadosGeraisForm.get('turno')?.hasError('required')">O turno é obrigatório.</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="col-span-2">
+                <mat-label>Líder da Equipe / Supervisor</mat-label>
+                <input matInput formControlName="liderEquipe" placeholder="Ex: Wellington Diniz">
+                <mat-error *ngIf="dadosGeraisForm.get('liderEquipe')?.hasError('required')">O nome do líder é obrigatório.</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Nº da Ideia</mat-label>
+                <input matInput formControlName="numeroIdeia" placeholder="Ex: KZ-2026-042">
+                <mat-error *ngIf="dadosGeraisForm.get('numeroIdeia')?.hasError('required')">O número da ideia é obrigatório.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Bloco B: Pergunta de Segurança para Coautores -->
+          <div class="form-section inline-radio-section">
+            <label class="radio-group-label">Outros participantes do Kaizen:</label>
+            <mat-radio-group formControlName="temOutrosParticipantes" color="primary">
+              <mat-radio-button value="sim">Sim</mat-radio-button>
+              <mat-radio-button value="nao">Não</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <!-- Bloco C: Card Dinâmico de Coautores (Injetado via *ngIf) -->
+          <div class="participantes-container" *ngIf="dadosGeraisForm.get('temOutrosParticipantes')?.value === 'sim'">
+            <mat-card class="inner-participant-card">
+              <mat-card-header>
+                <mat-card-title class="participant-card-title">
+                  <mat-icon>person_add</mat-icon> Dados do Participante Adicional
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="form-grid-3x pt-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nome</mat-label>
+                  <input matInput formControlName="participanteNome" placeholder="Nome completo">
+                  <mat-error *ngIf="dadosGeraisForm.get('participanteNome')?.hasError('required')">O nome é obrigatório.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Registro</mat-label>
+                  <input matInput formControlName="participanteRegistro" placeholder="Nº de Registro">
+                  <mat-error *ngIf="dadosGeraisForm.get('participanteRegistro')?.hasError('required')">O registro é obrigatório.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Nº Sug. (Sugestão)</mat-label>
+                  <input matInput formControlName="participanteNumeroSug" placeholder="Nº do formulário de sugestão">
+                  <mat-error *ngIf="dadosGeraisForm.get('participanteNumeroSug')?.hasError('required')">O número da sugestão é obrigatório.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="col-span-3">
+                  <mat-label>Observações</mat-label>
+                  <textarea matInput formControlName="participanteObservacoes" rows="2" placeholder="Notas sobre a atuação do coparticipante..."></textarea>
+                </mat-form-field>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <!-- Bloco D: Localização e Ativos de Chão de Fábrica -->
+          <div class="form-section">
+            <h4 class="form-section-title">Localização do Processo</h4>
+            <div class="form-grid-3x">
+              <mat-form-field appearance="outline">
+                <mat-label>UTE (Unidade de Produção)</mat-label>
+                <input matInput formControlName="ute" placeholder="Ex: UTE Prensa">
+                <mat-error *ngIf="dadosGeraisForm.get('ute')?.hasError('required')">A UTE é obrigatória.</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Linha</mat-label>
+                <input matInput formControlName="linha" placeholder="Ex: Linha de Solda 03">
+                <mat-error *ngIf="dadosGeraisForm.get('linha')?.hasError('required')">A linha é obrigatória.</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Máquina / Equipamento</mat-label>
+                <input matInput formControlName="maquina" placeholder="Ex: Prensa Hidráulica 02">
+                <mat-error *ngIf="dadosGeraisForm.get('maquina')?.hasError('required')">A máquina é obrigatória.</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>OP (Ordem de Produção)</mat-label>
+                <input matInput formControlName="op" placeholder="Ex: OP-882341">
+                <mat-error *ngIf="dadosGeraisForm.get('op')?.hasError('required')">A OP é obrigatória.</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="col-span-2">
+                <mat-label>Área / Setor Afetado</mat-label>
+                <input matInput formControlName="area" placeholder="Ex: Estamparia">
+                <mat-error *ngIf="dadosGeraisForm.get('area')?.hasError('required')">A área é obrigatória.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Bloco E: Título da Melhoria -->
+          <div class="form-section">
+            <h4 class="form-section-title">Identificação da Oportunidade</h4>
+            <div class="form-grid-1x">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Título do Kaizen / Desvio Encontrado</mat-label>
+                <input matInput formControlName="titulo" placeholder="Ex: Vazamento de óleo hidráulico com risco de queda de nível">
+                <mat-error *ngIf="dadosGeraisForm.get('titulo')?.hasError('required')">O título do Kaizen é obrigatório.</mat-error>
+                <mat-error *ngIf="dadosGeraisForm.get('titulo')?.hasError('minlength')">Mínimo de 5 caracteres.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <button mat-flat-button color="primary" matStepperNext type="button">Avançar para Análise</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- STEP 2: ANÁLISE DO FENÔMENO (5W1H) -->
+      <mat-step [stepControl]="fenomeno5w1hForm">
+        <ng-template matStepLabel>Análise Fenômeno (5W1H)</ng-template>
+        <div class="step-content">
+          <app-step-5w1h [formGroup]="fenomeno5w1hForm"></app-step-5w1h>
+          <div class="step-actions gap-12">
+            <button mat-stroke-button matStepperPrevious type="button">Voltar</button>
+            <button mat-flat-button color="primary" matStepperNext type="button">Avançar para Ação</button>
+          </div>
+        </div>
+      </mat-step>
+
+      <!-- STEP 3: CONCLUIR PLANO DE AÇÃO -->
+      <mat-step [stepControl]="planoAcaoForm">
+        <ng-template matStepLabel>Plano de Ação</ng-template>
+        <form [formGroup]="planoAcaoForm" class="step-content">
+          <h3 class="step-title">Qual a contramedida imediata adotada?</h3>
+          <div class="form-grid-1x">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Descrição Detalhada da Ação Corretiva</mat-label>
+              <textarea matInput formControlName="contramedida" rows="4" placeholder="Descreva o que foi feito para mitigar o desvio..."></textarea>
+              <mat-error *ngIf="planoAcaoForm.get('contramedida')?.hasError('required')">A contramedida é obrigatória.</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-50">
+              <mat-label>Prazo Limite para Execução</mat-label>
+              <input matInput type="date" formControlName="prazo">
+              <mat-error *ngIf="planoAcaoForm.get('prazo')?.hasError('required')">O prazo é obrigatório.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="step-actions gap-12">
+            <button mat-stroke-button matStepperPrevious type="button">Voltar</button>
+            <button mat-flat-button class="btn-success" (click)="salvarKaizen()" [disabled]="isSalving" type="button">
+              <mat-icon>check_circle</mat-icon>
+              <span>{{ isSalving ? 'Registrando...' : 'Finalizar e Publicar' }}</span>
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+    </mat-stepper>
+  </mat-card>
+</div>

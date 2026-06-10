@@ -1,0 +1,123 @@
+.finance-container {
+  padding: 16px 4px;
+
+  // Banner informativo superior
+  .alert-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #fffde7; // Amarelo suave corporativo
+    border: 1px solid #fff59d;
+    color: #f57f17;
+    padding: 16px;
+    border-radius: 6px;
+    margin-bottom: 32px;
+
+    mat-icon {
+      color: #f57f17;
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+
+    .banner-text {
+      font-size: 13.5px;
+      line-height: 1.4;
+    }
+  }
+
+  // Linha de Inputs das variáveis bruteas
+  .inputs-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-bottom: 32px;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+
+    mat-icon {
+      color: #757575;
+    }
+
+    mat-hint {
+      color: #616161;
+      font-size: 11.5px;
+    }
+  }
+
+  // Grid de Cards de Resultados Macrossistêmicos
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Estilização base de um Cartão de Resultado
+  .result-card {
+    background-color: #fafafa;
+    border: 1px solid #e0e0e0;
+    padding: 24px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.3s ease;
+
+    .label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #666666;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+    }
+
+    .value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #212121;
+      margin-bottom: 6px;
+    }
+
+    .sub-label {
+      font-size: 11.5px;
+      color: #757575;
+    }
+
+    // Estado dinâmico para Saving positivo (Lucro)
+    &.positive-saving {
+      background-color: #e8f5e9; // Verde claro
+      border-color: #a5d6a7;
+
+      .label, .sub-label { color: #2e7d32; }
+      .value { color: #1b5e20; }
+    }
+
+    // Estado dinâmico para Saving negativo (Prejuízo técnico inicial)
+    &.negative-saving {
+      background-color: #ffebee; // Vermelho claro
+      border-color: #ef9a9a;
+
+      .label, .sub-label { color: #c62828; }
+      .value { color: #b71c1c; }
+    }
+
+    // Estado ativo para proporção aceitável de Payback (B/C >= 1)
+    &.active-ratio {
+      border-left: 4px solid #3f51b5; // Destaca o card com o azul padrão do sistema
+    }
+  }
+}

@@ -1,0 +1,155 @@
+.plano-acao-container {
+  padding: 16px 4px;
+
+  // Bloco de Título e Botão superior de Inserção
+  .header-acoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .header-text {
+      h3 {
+        margin: 0 0 4px 0;
+        color: #212121;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .subtitle {
+        margin: 0;
+        font-size: 13px;
+        color: #666666;
+      }
+    }
+
+    button {
+      height: 40px;
+      font-weight: 500;
+    }
+  }
+
+  // Banner informativo para lista zerada
+  .alert-empty {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #e8eaf6; // Azul sutil informativo
+    border: 1px solid #c5cae9;
+    padding: 16px;
+    border-radius: 6px;
+    color: #283593;
+    font-size: 13.5px;
+
+    mat-icon {
+      color: #3f51b5;
+    }
+  }
+
+  // Lista/Container elástico com scroll interno caso hajam muitas ações
+  .acoes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 520px;
+    overflow-y: auto;
+    padding: 4px;
+
+    // Customização discreta da barra de rolagem (Scrollbar)
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #cccccc;
+      border-radius: 4px;
+    }
+  }
+
+  // Cartão/Linha Individual de Ação
+  .acao-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: #ffffff;
+    padding: 20px 16px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #3f51b5; // Destaque da linha com a cor primária
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    @media (max-width: 1024px) {
+      align-items: flex-start;
+    }
+
+    // Badge numérico lateral esquerdo
+    .badge-item {
+      font-weight: 700;
+      font-size: 15px;
+      color: #3f51b5;
+      min-width: 28px;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    // Grid interno elástico para organizar as colunas
+    .inputs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); // Distribui em 4 colunas horizontais compactas
+      gap: 16px 12px;
+      flex-grow: 1;
+
+      // Resoluções intermediárias (Notebooks pequenos/Tablets horizontais)
+      @media (max-width: 1200px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      // Tablets verticais
+      @media (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      // Celulares comuns do chão de fábrica
+      @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
+    // Neutralização de paddings embutidos do Material para manter a linha enxuta
+    mat-form-field {
+      width: 100%;
+      margin-bottom: -16px; // Remove o gap invisível do erro do Material quando o campo está válido
+
+      mat-label {
+        font-size: 13px;
+      }
+
+      input {
+        font-size: 13.5px;
+        color: #333333;
+      }
+    }
+
+    // Célula do botão de exclusão
+    .actions-cell {
+      display: flex;
+      align-items: center;
+      align-self: center;
+      padding-left: 4px;
+
+      @media (max-width: 1024px) {
+        align-self: flex-start;
+        margin-top: 4px;
+      }
+    }
+  }
+}

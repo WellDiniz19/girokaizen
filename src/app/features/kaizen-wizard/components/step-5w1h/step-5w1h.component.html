@@ -1,0 +1,67 @@
+
+<div *ngIf="formGroup" [formGroup]="formGroup" class="step-5w1h-container">
+
+  <div class="full-width">
+    <h3>Análise do Fenômeno (Metodologia 5W1H)</h3>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Descrição Geral do Problema (Abordagem 5G)</mat-label>
+      <textarea matInput formControlName="descricaoProblema" rows="3"
+                placeholder="Descreva de forma sucinta o desvio observado no processo ou equipamento..."></textarea>
+      <mat-error *ngIf="formGroup.get('descricaoProblema')?.hasError('required')">
+        A descrição geral do problema é obrigatória.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="grid-5w1h">
+
+    <mat-form-field appearance="outline">
+      <mat-label>What? (O que?)</mat-label>
+      <textarea matInput formControlName="what" rows="4"
+                placeholder="Sobre qual objeto/produto ocorre o problema? Com o que se assemelha o fenômeno? Qual máquina ou material?"></textarea>
+      <mat-hint>Especifique o objeto, máquina, material ou ferramentas envolvidas.</mat-hint>
+      <mat-error *ngIf="formGroup.get('what')?.hasError('required')">Este campo é obrigatório.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>When? (Quando?)</mat-label>
+      <textarea matInput formControlName="when" rows="4"
+                placeholder="Quando o problema é verificado? Na sequência das operações: start-up, funcionamento normal, set-up, shutdown?"></textarea>
+      <mat-hint>Identifique o momento, frequência ou etapa do ciclo operacional.</mat-hint>
+      <mat-error *ngIf="formGroup.get('when')?.hasError('required')">Este campo é obrigatório.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Where? (Onde?)</mat-label>
+      <textarea matInput formControlName="where" rows="4"
+                placeholder="Onde ocorre o problema? Onde se manifestou o fenômeno no equipamento ou no produto?"></textarea>
+      <mat-hint>Localização física exata na máquina, componente ou peça.</mat-hint>
+      <mat-error *ngIf="formGroup.get('where')?.hasError('required')">Este campo é obrigatório.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Who? (Quem?)</mat-label>
+      <textarea matInput formControlName="who" rows="4"
+                placeholder="Quem identificou ou está envolvido? É ligado a um nível de experiência, turno ou equipe específica?"></textarea>
+      <mat-hint>Operador, mantenedor ou características da equipe afetada.</mat-hint>
+      <mat-error *ngIf="formGroup.get('who')?.hasError('required')">Este campo é obrigatório.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Which? (Qual?)</mat-label>
+      <textarea matInput formControlName="which" rows="4"
+                placeholder="Qual andamento ou tendência tem o fenômeno? É mais frequente na segunda de manhã? Após mudança de lote? Casual?"></textarea>
+      <mat-hint>Tendência do desvio, comportamento histórico ou evolução do problema.</mat-hint>
+      <mat-error *ngIf="formGroup.get('which')?.hasError('required')">Este campo é obrigatório.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>How? (Como?)</mat-label>
+      <textarea matInput formControlName="how" rows="4"
+                placeholder="Como o problema se desenvolve? Qual o modo de falha? (Ex: Atrito excessivo causando quebra, desgaste por químicos)"></textarea>
+      <mat-hint>Descreva o mecanismo físico da falha ou sequência do evento.</mat-hint>
+      <mat-error *ngIf="formGroup.get('how')?.hasError('required')">Este campo é obrigatório.</mat-error>
+    </mat-form-field>
+
+  </div>
+</div>

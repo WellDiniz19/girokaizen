@@ -1,0 +1,79 @@
+<div class="plano-acao-container">
+
+  <div class="header-acoes">
+    <div class="header-text">
+      <h3>Definição do Plano de Ação (Bloqueio da Causa Raiz)</h3>
+      <p class="subtitle">Cadastre as contra-medidas necessárias para mitigar a causa raiz identificada</p>
+    </div>
+    <button mat-flat-button color="primary" type="button" (click)="adicionarAcao()">
+      <mat-icon>add</mat-icon> Adicionar Ação
+    </button>
+  </div>
+
+  <div class="alert-empty" *ngIf="planosAcao.length === 0">
+    <mat-icon>info</mat-icon>
+    <span>Nenhuma ação cadastrada. Adicione pelo menos <strong>uma ação obrigatória</strong> para prosseguir com o Quick Kaizen.</span>
+  </div>
+
+  <div class="acoes-list" *ngIf="planosAcao.length > 0">
+    <div *ngFor="let acao of planosAcao.controls; let i = index"
+         [formGroup]="getAsFormGroup(acao)"
+         class="acao-row mat-elevation-z1">
+
+      <div class="badge-item">#{{ i + 1 }}</div>
+
+      <div class="inputs-grid">
+
+        <mat-form-field appearance="outline">
+          <mat-label>O que? (Ação)</mat-label>
+          <input matInput formControlName="oQue" placeholder="Ex: Instalar trava de segurança">
+          <mat-error *ngIf="getAsFormGroup(acao).get('oQue')?.hasError('required')">Obrigatório.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Por quê? (Objetivo)</mat-label>
+          <input matInput formControlName="porQue" placeholder="Ex: Evitar abertura indevida">
+          <mat-error *ngIf="getAsFormGroup(acao).get('porQue')?.hasError('required')">Obrigatório.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Como? (Método)</mat-label>
+          <input matInput formControlName="como" placeholder="Ex: Parafusar suporte de aço 1020">
+          <mat-error *ngIf="getAsFormGroup(acao).get('como')?.hasError('required')">Obrigatório.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Onde? (Local)</mat-label>
+          <input matInput formControlName="onde" placeholder="Ex: Proteção móvel da OP.150">
+          <mat-error *ngIf="getAsFormGroup(acao).get('onde')?.hasError('required')">Obrigatório.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Quem? (Responsável)</mat-label>
+          <input matInput formControlName="quem" placeholder="Nome ou Matrícula">
+          <mat-error *ngIf="getAsFormGroup(acao).get('quem')?.hasError('required')">Obrigatório.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Quando? (Prazo)</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="quando" placeholder="DD/MM/AAAA" readonly>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="getAsFormGroup(acao).get('quando')?.hasError('required')">Prazo obrigatório.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Situação</mat-label>
+          <mat-select formControlName="situacao">
+            <mat-option value="Pendente">Pendente</mat-option>
+            <mat-option value="Concluído">Concluído</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div> <div class="actions-cell">
+        <button mat-icon-button color="warn" type="button" (click)="removerAcao(i)" matTooltip="Remover esta ação">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+    </div> </div> </div>

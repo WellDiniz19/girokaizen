@@ -1,0 +1,46 @@
+<div [formGroup]="formGroup" class="finance-container">
+
+  <div class="alert-banner">
+    <mat-icon>info</mat-icon>
+    <div class="banner-text">
+      <strong>Diretriz Corporativa:</strong> Insira exclusivamente os valores brutos estimados nos campos amarelos de entrada. Os indicadores de ganho real e a proporção de viabilidade serão gerados reativamente pelo sistema.
+    </div>
+  </div>
+
+  <div class="inputs-row">
+    <mat-form-field appearance="outline">
+      <mat-label>Custo Total do Investimento (C) - R$</mat-label>
+      <input matInput type="number" formControlName="custoTotal" placeholder="0.00" min="0">
+      <mat-icon matSuffix>monetization_on</mat-icon>
+      <mat-hint>Custos com dispositivos, materiais, ferramentas ou horas externas.</mat-hint>
+      <mat-error *ngIf="formGroup.get('custoTotal')?.hasError('min')">O custo não pode ser negativo.</mat-error>
+      <mat-error *ngIf="formGroup.get('custoTotal')?.hasError('required')">O custo de investimento é obrigatório.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Benefício Bruto Estimado (B) - R$</mat-label>
+      <input matInput type="number" formControlName="beneficioTotal" placeholder="0.00" min="0">
+      <mat-icon matSuffix>trending_up</mat-icon>
+      <mat-hint>Economia mensal calculada com quebras evitadas ou eliminação de perdas.</mat-hint>
+      <mat-error *ngIf="formGroup.get('beneficioTotal')?.hasError('min')">O benefício não pode ser negativo.</mat-error>
+      <mat-error *ngIf="formGroup.get('beneficioTotal')?.hasError('required')">O benefício estimado é obrigatório.</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="results-grid">
+
+    <div class="result-card" [ngClass]="{'positive-saving': formGroup.get('saving')?.value > 0, 'negative-saving': formGroup.get('saving')?.value < 0}">
+      <span class="label">Saving Líquido Gerado (B - C)</span>
+      <span class="value">{{ formGroup.get('saving')?.value | currency:'BRL':'symbol':'1.2-2' }}</span>
+      <span class="sub-label" *ngIf="formGroup.get('saving')?.value > 0">Projeto Financeiramente Viável</span>
+      <span class="sub-label" *ngIf="formGroup.get('saving')?.value < 0">Atenção: Custo maior que Retorno</span>
+    </div>
+
+    <div class="result-card ratio-card" [class.active-ratio]="formGroup.get('proporcaoBC')?.value >= 1">
+      <span class="label">Relação de Viabilidade (B / C)</span>
+      <span class="value">{{ formGroup.get('proporcaoBC')?.value }}x</span>
+      <span class="sub-label">Retorno para cada R$ 1,00 investido</span>
+    </div>
+
+  </div>
+</div>

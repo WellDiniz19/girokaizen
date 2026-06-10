@@ -1,0 +1,42 @@
+<div class="login-wrapper">
+  <mat-card class="login-card mat-elevation-z4">
+
+    <div class="login-header">
+      <div class="logo-container">
+        <img src="logo.png" alt="Logo GiroKaizen" class="custom-logo">
+      </div>
+      <p class="login-subtitle">Insira suas credenciais para acessar o portal de Melhoria Contínua</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-card-content class="login-content">
+
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Matrícula ou Usuário</mat-label>
+          <input matInput formControlName="matricula" placeholder="Ex: 100234" autocomplete="username">
+          <mat-icon matSuffix>badge</mat-icon>
+          <mat-error *ngIf="loginForm.get('matricula')?.hasError('required')">A matrícula é obrigatória.</mat-error>
+          <mat-error *ngIf="loginForm.get('matricula')?.hasError('minlength')">Mínimo de 4 caracteres.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Senha</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="senha" autocomplete="current-password">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button" [attr.aria-label]="'Esconder senha'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.get('senha')?.hasError('required')">A senha é obrigatória.</mat-error>
+          <mat-error *ngIf="loginForm.get('senha')?.hasError('minlength')">A senha deve ter pelo menos 6 dígitos.</mat-error>
+        </mat-form-field>
+
+      </mat-card-content>
+
+      <mat-card-actions class="login-actions">
+        <button mat-flat-button color="primary" type="submit" class="w-100" [disabled]="loginForm.invalid || isLoading">
+          <span>{{ isLoading ? 'Autenticando...' : 'Entrar no Sistema' }}</span>
+        </button>
+      </mat-card-actions>
+    </form>
+
+  </mat-card>
+</div>
