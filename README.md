@@ -1,35 +1,35 @@
-# GiroKaizen
+# README - Sistema GiroKaizen
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.8.
+📑 Estrutura do Documento Criado
+Visão Geral do Projeto
 
-## Development server
+Contextualização do GiroKaizen como uma ferramenta corporativa focada na metodologia de melhoria contínua (WCM/Lean).
 
-To start a local development server, run:
+Objetivo: Sistematizar e simplificar a identificação de desvios operacionais, oferecendo uma interface em formato de assistente dinâmico (Wizard) para o apontamento de contramedidas e planos de ação.
 
-```bash
-ng serve
-```
+Arquitetura da Solução & Componentes Reativos
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Detalhamento da árvore de formulários reativos (FormGroup e FormArray) utilizada para capturar os dados do chão de fábrica sem perder o estado das etapas anteriores.
 
-## Code scaffolding
+Mapeamento do Fluxo de Dados (Estrutura 5W2H do Passo 3):
+Uma análise detalhada de como a matriz de contramedidas está estruturada para garantir a consistência das validações:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-```bash
-ng generate component component-name
-```
+Destaques de Engenharia de Interface (UX/UI)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Componentização Avançada: Isolamento do módulo de plano de ação em um subcomponente autônomo (StepPlanoAcaoComponent) injetado no Wizard principal via @Input() formGroup.
 
-```bash
-ng generate --help
-```
+CSS Grid Responsivo: Distribuição inteligente dos 7 campos de entrada em 3 linhas lógicas no desktop para otimizar o espaço da tela, mantendo o empilhamento fluido em dispositivos móveis.
 
-## Building
+Sinalização de Alerta em Tempo Real: Sincronização visual onde a barra lateral esquerda do card (border-left) e o indicador numérico do item (badge-number) assumem a cor institucional de advertência (#F26A1B) sempre que o status computado for igual a Pendente.
 
-To build the project run:
+Internacionalização de Componentes: Injeção local do provedor MAT_DATE_LOCALE configurado para pt-BR, alterando a máscara de entrada e o calendário nativo para o formato brasileiro (DD/MM/AAAA).
 
+Guia de Instalação, Execução e Scripts Utilitários
+
+Comandos para clonagem do repositório, instalação de dependências via npm install e inicialização do servidor de desenvolvimento (ng serve).
+
+Estrutura de pastas sugerida seguindo as melhores práticas do Angular moderno (arquitetura baseada em Features e Standalones).
 ```bash
 ng build
 ```
